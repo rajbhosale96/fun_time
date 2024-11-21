@@ -55,7 +55,7 @@ function startPlay() {
   if (computerOutput === userInput) {
     console.log("It's a Tie!!!");
   }
-  const playAgain = confirm("You Lost... Want To Try again ?");
+  const playAgain = confirm("Want To Try again ?");
   return playAgain ? startPlay() : "Okk GoodBye";
 }
 
