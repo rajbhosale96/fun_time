@@ -1,8 +1,25 @@
 // 0 = rock , 1 = paper, scissors = 2;
 const welcomeMsg = "Welcome to Rock Paper Scissors Game";
 const start = "Let's start !!! press enter...";
-const descript1 = "Rock, paper and scissors are represented as number...\n";
-const descript2 = "🪨Rock = 0 :: 📜Paper = 1 :: ✂️ Scissor = 2\n";
+const descriptionMsg1 = "Rock, paper and scissors are represented as number...";
+const descriptionMsg2 = "\n🪨Rock = 1 :: 📜Paper = 2 :: ✂️ Scissor = 3\n";
+
+function getRandomNumber() {
+  return Math.ceil(Math.random() * 3);
+}
+
+function getEmoji(value) {
+  switch (value) {
+    case 1: return "🪨";
+    case 2: return "📜";
+    case 3: return "✂️";
+  }
+}
+
+function delay(time) {
+  for (let i = 0; i < time; i += 4) {
+  }
+}
 
 function getALine(length) {
   let line = '';
@@ -23,47 +40,82 @@ function welcome() {
 }
 
 function description() {
-  console.log(descript1 + descript2);
+  console.log(descriptionMsg1 + descriptionMsg2);
 }
 
 function createNumber() {
-  return Math.round(Math.random() * 2);
+  return Math.ceil(Math.random() * 3);
 }
 
 function getUserInput() {
-  return prompt("Enter your input : ");
+  const number = +prompt("Enter your input : ");
+
+  if (number > 0 && number <= 3) {
+    return number;
+  }
+
+  console.log("Invalid Input!!!! \n");
+
+  return getUserInput();
 }
 
-function isWon(computerOutput, userInput) {
-  const winChance1 = userInput === 0 && computerOutput === 2;
-  const winChance2 = userInput === 1 && computerOutput === 0;
-  const winChance3 = userInput === 2 && computerOutput === 1;
+function isUserWon(computerOutput, userInput) {
+  const winChance1 = userInput === 1 && computerOutput === 3;
+  const winChance2 = userInput === 2 && computerOutput === 1;
+  const winChance3 = userInput === 3 && computerOutput === 2;
 
-  console.log("Computer : " + computerOutput);
   return winChance1 || winChance2 || winChance3;
 }
 
-function startPlay() {
-  console.clear();
-  description();
-  const computerOutput = createNumber();
-  const userInput = +getUserInput();
-
-  if (isWon(computerOutput, userInput)) {
-    return "You Won !!!"
+function whoWon(computerOutput, userInput, userName) {
+  if (isUserWon(computerOutput, userInput)) {
+    return userName + " Won🏆\n";
   }
   if (computerOutput === userInput) {
-    console.log("It's a Tie!!!");
+    return "It's a tie😬\n";
   }
-  const playAgain = confirm("Want To Try again ?");
-  return playAgain ? startPlay() : "Okk GoodBye";
+
+  return "Computer Won😯\n";
+}
+
+function animate() {
+  let value = 0;
+
+  for (let i = 1; i < 20; i++) {
+    console.clear();
+    value = getRandomNumber();
+    console.log("Computer's Choice ➤ " + getEmoji(value));
+    delay(1000000000);
+  }
+
+  return value;
+}
+
+function startPlay(userName) {
+  console.clear();
+  description();
+
+  const userInput = getUserInput();
+  const computerOutput = animate();
+
+  console.log("Your's Choice ➤ " + getEmoji(userInput) + "\n");
+
+
+  console.log(whoWon(computerOutput, userInput, userName));
+
+  const playAgain = confirm("Want To Try again 😊?");
+
+  return playAgain ? startPlay(userName) : userName + " Thanks for Playing😇";
 }
 
 function play() {
   welcome();
   prompt(start);
+  description();
+
   const name = prompt("Enter Your Name : ");
-  console.log(name + "  " + startPlay());
+
+  return startPlay(name);
 }
 
-play();
+console.log(play());
