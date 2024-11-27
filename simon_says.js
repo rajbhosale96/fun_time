@@ -1,5 +1,3 @@
-
-// 🟥 🟧 🟨 🟩 🟦 🟪 ⬛️ ⬜️ 🟫
 const welcome = '!!!Welcome to SIMON SAYS game 😃!!!';
 const intro1 = 'Test your memory!!! \nWatch the pattern,';
 const intro2 = ' repeat it, and keep up as the sequence grows.';
@@ -32,39 +30,30 @@ function instruction() {
 }
 
 function generateRandomColor() {
-  return Math.ceil(Math.random() * 7);
+  return Math.floor(Math.random() * 7);
 }
 
-function printColor(colorCode) {
-  switch (colorCode) {
-    case 1: return '🟦';
-    case 2: return '🟧';
-    case 3: return '🟨';
-    case 4: return '🟩';
-    case 5: return '🟪';
-    case 6: return '⬜️';
-    case 7: return '🟥';
-  }
+function printColor(code) {
+  const color = ["🟧", "🟥", "🟦", "🟨", "🟩", "🟪", "⬜️"];
+
+  return color[code];
 }
 
-function getColorCode(colorCode) {
-  switch (colorCode) {
-    case 1: return 'b';
-    case 2: return 'o';
-    case 3: return 'y';
-    case 4: return 'g';
-    case 5: return 'p';
-    case 6: return 'w';
-    case 7: return 'r';
-  }
+function getColorCode(code) {
+  const colorCode = ["o", "r", "b", "y", "g", "p", "w"];
+
+  return colorCode[code];
 }
 
 function userTurn(params) {
   return prompt("👉Now, it's your turn! Remember & Repeat the sequence !!");
 }
 
-function getScore(computerColorCode, userChoice) {
+function isEqual(computerColorCode, userChoice) {
+  return computerColorCode === userChoice;
+}
 
+function getScore(computerColorCode, userChoice) {
   const colorCode = generateRandomColor();
 
   console.clear();
@@ -75,7 +64,7 @@ function getScore(computerColorCode, userChoice) {
   computerColorCode += getColorCode(colorCode);
   userChoice = userTurn();
 
-  if (computerColorCode !== userChoice) {
+  if (!isEqual(computerColorCode, userChoice)) {
     console.log("ohh No😮 ! The correct string was : " + computerColorCode);
     return 0;
   }
